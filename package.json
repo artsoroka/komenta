@@ -1,0 +1,30 @@
+{
+  "name": "commentator",
+  "version": "0.0.1",
+  "description": "user reviews and comments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artsoroka/komenta.git"
+  },
+  "keywords": [
+    "comments",
+    "reviews"
+  ],
+  "author": "Artem Soroka <art.soroka@yandex.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artsoroka/komenta/issues"
+  },
+  "homepage": "https://github.com/artsoroka/komenta#readme",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "ejs": "^2.4.2",
+    "express": "^4.14.0",
+    "formidable": "^1.0.17",
+    "rethinkdbdash": "^2.3.12"
+  }
+}
