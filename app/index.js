@@ -1,14 +1,32 @@
 var express    = require('express'); 
 var formidable = require('formidable'); 
 var app        = express(); 
+var session    = require('./lib/session'); 
 var config     = require('../config'); 
+
+var auth = require('./routes/auth'); 
+
+app.use(session); 
 
 app.set('view engine', 'ejs'); 
 app.set('views', __dirname + '/views');
 
+var authRequired = function(req,res,next){
+    if( ! req.session || ! req.session.user){
+        return res.send('auth required'); 
+    }
+    next(); 
+}; 
+
 app.get('/', function(req,res){
     res.render('mainpage'); 
 }); 
+
+app.get('/home', authRequired, function(req,res){
+    res.send('home'); 
+}); 
+
+app.use('/auth', auth); 
 
 app.all('*', function(req,res){
     
