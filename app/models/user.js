@@ -17,11 +17,16 @@ User.prototype.login = function(username, password){
             .run()
             .then(function(users) {
                 console.log(users,username, password); 
+                
                 if( _.isEmpty(users) ){
-                    return reject('no user found with such credentials'); 
+                    return resolve(null); 
                 }
                 
-                resolve(users); 
+                if( users.length > 1 ){
+                    console.log('found more then one record with username %s', username); 
+                }
+                
+                resolve(_.first(users)); 
                 
             }).error(function(err){
                 console.log(err); 

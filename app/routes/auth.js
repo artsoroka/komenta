@@ -1,6 +1,9 @@
-var express = require('express'); 
-var router  = express.Router(); 
-var User    = require('../models/user'); 
+var _         = require('lodash'); 
+var express   = require('express'); 
+var router    = express.Router(); 
+var User      = require('../models/user'); 
+var Joi       = require('joi'); 
+var userLogin = require('../schema/userLogin'); 
 
 var bodyParser = require('body-parser'); 
 var urlencodedParser = bodyParser.urlencoded({ extended: false }); 
@@ -10,20 +13,29 @@ router.get('/login', function(req,res){
 }); 
 
 router.post('/login', urlencodedParser, function(req,res){
-    var data = req.body      || {}; 
-    var name = data.login    || null; 
-    var pswd = data.password || null; 
-    
-    var user = new User(); 
-    user
-        .login(name, pswd)
-        .then(function(user){
-            req.session.user = user; 
-            res.json(user);  
-        })
-        .catch(function(err){
-            res.send(err); 
-        }); 
+
+    Joi.validate(req.body, userLogin, function (err, data) {
+        if( err ){
+            return res.status(400).send(_.first(err.details).message); 
+        }
+        
+        var user = new User(); 
+        user
+            .login(data.username, data.password)
+            .then(function(user){
+                
+                if( ! user ){
+                    throw Error('no user found with such credentials'); 
+                }
+                
+                req.session.user = user; 
+                res.json(user);  
+            })
+            .catch(function(err){
+                res.send(err.message); 
+            }); 
+        
+    }); 
     
 }); 
 
