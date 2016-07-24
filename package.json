@@ -4,7 +4,9 @@
   "description": "user reviews and comments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/www",
+    "postinstall": "mkdir -p uploads"
   },
   "repository": {
     "type": "git",
